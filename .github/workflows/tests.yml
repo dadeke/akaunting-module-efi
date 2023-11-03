@@ -1,0 +1,82 @@
+name: Tests
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+jobs:
+  tests:
+
+    name: PHP ${{ matrix.php }}
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 40
+
+    strategy:
+      matrix:
+        php: ['8.1', '8.2']
+
+    steps:
+      - name: Checkout Akaunting
+        timeout-minutes: 1
+        uses: actions/checkout@v3
+        with:
+          repository: akaunting/akaunting
+
+      - name: Checkout module to tmp path
+        timeout-minutes: 1
+        uses: actions/checkout@v3
+        with:
+          path: tmp-path-for-module
+
+      - id: set_var
+        timeout-minutes: 1
+        run: |
+          echo 'moduleJson<<EOF' >> $GITHUB_OUTPUT
+          cat ./tmp-path-for-module/module.json >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
+
+      - name: Create module folder name which is PascalCase
+        timeout-minutes: 1
+        run: |
+          MODULE_FOLDER_NAME=$(echo -n ${{fromJson(steps.set_var.outputs.moduleJson).alias}} | sed -r 's/(^|-)([a-z])/\U\2/g')
+          echo "MODULE_FOLDER_NAME=${MODULE_FOLDER_NAME}" >> $GITHUB_ENV
+
+      - name: Checkout module
+        timeout-minutes: 1
+        uses: actions/checkout@v3
+        with:
+          path: modules/${{ env.MODULE_FOLDER_NAME }}
+
+      - name: Remove the tmp folder
+        timeout-minutes: 1
+        run: rm -rf tmp-path-for-module
+
+      - name: Cache Composer
+        timeout-minutes: 1
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache/files
+          key: php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+
+      - name: Setup PHP
+        timeout-minutes: 1
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: bcmath, ctype, dom, fileinfo, intl, gd, json, mbstring, pdo, pdo_sqlite, openssl, sqlite, xml, zip
+          coverage: none
+
+      - name: Copy .env
+        timeout-minutes: 1
+        run: cp .env.testing .env
+
+      - name: Install Composer
+        timeout-minutes: 5
+        run: cd "modules/${{ env.MODULE_FOLDER_NAME }}" ; composer test ; cd ../.. ; composer test
+
+      - name: Execute tests
+        timeout-minutes: 30
+        run: php artisan test --parallel

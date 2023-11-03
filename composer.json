@@ -1,0 +1,45 @@
+{
+    "name": "akaunting/module-efi",
+    "description": "Efí app for Akaunting",
+    "version": "1.0.0",
+    "homepage": "https://akaunting.com/apps/efi",
+    "keywords": [
+        "laravel",
+        "accounting",
+        "invoice",
+        "akaunting",
+        "efi",
+        "pix",
+        "brazil",
+        "brasil"
+    ],
+    "license": "MIT",
+    "authors": [{
+        "name": "Deividson Damasio",
+        "email": "deividsondamasio@yahoo.com.br",
+        "homepage": "https://github.com/dadeke",
+        "role": "Web Developer"
+    }],
+    "require": {
+        "efipay/sdk-php-apis-efi": "^1.4"
+    },
+    "replace": {
+        "guzzlehttp/guzzle": "*",
+        "guzzlehttp/promises": "*",
+        "guzzlehttp/psr7": "*",
+        "psr/cache":"*",
+        "psr/container":"*",
+        "psr/http-client":"*",
+        "psr/http-factory":"*",
+        "psr/http-message":"*",
+        "psr/log":"*",
+        "ralouphie/getallheaders": "*",
+        "symfony/deprecation-contracts": "*",
+        "symfony/service-contracts": "*"
+    },
+    "scripts": {
+        "test": [
+            "composer install --prefer-dist --no-interaction --no-scripts --no-suggest --no-progress --no-ansi"
+        ]
+    }
+}
