@@ -27,4 +27,4 @@ and Certificate:
 
 Save your credentials here:
 
-![Akaunting - Settings - Efí](https://github.com/dadeke/akaunting-module-efi/assets/6050573/e49c008e-cef8-4b8b-a08d-71afa81df551)
+![Akaunting - Settings - Efí](https://github.com/dadeke/akaunting-module-efi/assets/6050573/2b360976-8e18-4f28-bcee-6ba4630017b3)
