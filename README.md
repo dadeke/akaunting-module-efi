@@ -16,7 +16,7 @@ This app allows your customers to pay their invoices with Pix a common payment m
 - Download the last release [https://github.com/dadeke/akaunting-module-efi/releases](https://github.com/dadeke/akaunting-module-efi/releases) **efi-(version).zip**
 - Extract zip file into `modules/Efi`
 - Run install dependencies: `composer install`
-- [Install](https://developer.akaunting.com/documentation/modules/#67474166c92e) the module: `php artisan module:install efi 1`
+- [Install](https://akaunting.com/hc/docs/developers/modules/#67474166c92e) the module: `php artisan module:install efi 1`
 
 ## Settings
 
